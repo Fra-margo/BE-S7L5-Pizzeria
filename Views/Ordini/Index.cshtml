@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Pizzeria.Models.Ordine>
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .container-Ordini {
+        max-width: 800px; 
+        margin: auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse; 
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dee2e6; 
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+    td {
+        vertical-align: top;
+    }
+
+    input[type="submit"] {
+        padding: 6px 12px;
+        border: none; 
+        background-color: #007bff; 
+        color: #ffffff;
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+</style>
+<div class="container-Ordini">
+    <h2>Elenco Ordini</h2>
+    <p>@Html.ActionLink("Torna indietro", "IndexAdmin", "Home")</p>
+    <table>
+        <tr>
+            <th>ID Ordine</th>
+            <th>Username</th>
+            <th>Indirizzo</th>
+            <th>Note</th>
+            <th>Stato</th>
+            <th>Totale</th>
+            <th>Operazioni</th>
+        </tr>
+        @foreach (var ordine in Model)
+        {
+            <tr>
+                <td>@ordine.IdOrdine</td>
+                <td>@ordine.Username</td>
+                <td>@ordine.Indirizzo</td>
+                <td>@ordine.Note</td>
+                <td>@ordine.Stato</td>
+                <td>@ordine.Totale €</td>
+                <td>
+                    @using (Html.BeginForm("UpdateStato", "Ordini", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("idOrdine", ordine.IdOrdine)
+                        @Html.DropDownList("nuovoStato", new SelectList(new[] { "In attesa", "Evaso" }, ordine.Stato))
+                        <input type="submit" value="Salva" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

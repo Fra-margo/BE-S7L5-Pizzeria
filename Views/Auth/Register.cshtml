@@ -1,0 +1,82 @@
+﻿@using Pizzeria.Models
+@model Utenti
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    #body-register{
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container-register{
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #h2-register{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-label-register {
+        font-weight: bold;
+    }
+
+    .form-control-register {
+        margin-bottom: 15px;
+    }
+
+    .invalid-feedback-register {
+        display: block;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+
+    .btn-register{
+        display: block; 
+        width: 100%; 
+        margin-top: 15px; 
+    }
+
+</style>
+<body id="body-register">
+
+    <div class="container-register">
+        <h2 id="h2-register">Register</h2>
+
+        @using (Html.BeginForm("Register", "Auth", FormMethod.Post, new { novalidate = "true" }))
+        {
+            @Html.AntiForgeryToken()
+
+            if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            }
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Username, new { @class = "form-label-register" })
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = $"form-control-register {(ViewData.ModelState.IsValidField("Email") ? "" : "is-invalid")}" } })
+                @Html.ValidationMessageFor(model => model.Username, null, new { @class = "invalid-feedback-register" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Password, new { @class = "form-label-register" })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = $"form-control-register {(ViewData.ModelState.IsValidField("Email") ? "" : "is-invalid")}" } })
+                @Html.ValidationMessageFor(model => model.Password, null, new { @class = "invalid-feedback-register" })
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-register">Registrati</button>
+        }
+    </div>
+</body>

@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .container-Admin {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h3-Admin {
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+
+    numeroOrdiniEvasi,
+    totaleIncassoGiornaliero {
+        margin-bottom: 20px;
+    }
+
+    label-Admin {
+        font-weight: bold;
+    }
+
+    input[type="date"],
+    #btnCerca {
+        padding: 8px 12px; 
+        margin-top: 10px; 
+        border: 1px solid #ced4da; 
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        color: #343a40;
+        cursor: pointer;
+    }
+
+    #btnCerca{
+        background-color: #007bff;
+        color: #ffffff; 
+        transition: background-color 0.3s ease;
+    }
+
+    #btnCerca:hover {
+        background-color: #0056b3; 
+    }
+</style>
+
+<div class="container-Admin">
+    <h3 id="h3-Admin">Numero totale di ordini evasi:</h3>
+    <p id="numeroOrdiniEvasi"></p>
+
+    <div>
+        <label for="data" id="label-Admin">Seleziona una data:</label>
+        <input type="date" id="data" name="data">
+        <button id="btnCerca">Cerca</button>
+    </div>
+
+    <div>
+        <h3 id="h3-Admin">Totale incassato per la data selezionata:</h3>
+        <p id="totaleIncassoGiornaliero"></p>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetNumeroOrdiniEvasi", "Admin")',
+                type: 'GET',
+                success: function (data) {
+                    $('#numeroOrdiniEvasi').text(data);
+                }
+            });
+
+            $('#btnCerca').click(function () {
+                var dataSelezionata = $('#data').val();
+                $.ajax({
+                    url: '@Url.Action("GetIncassoGiornaliero", "Admin")',
+                    type: 'GET',
+                    data: { data: dataSelezionata },
+                    success: function (data) {
+                        $('#totaleIncassoGiornaliero').text(data);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "IndexAdmin";
+}
+<style>
+    .container-Index {
+        max-width: 600px; 
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #h2-Index {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    #h4-Index {
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+
+        #h4-Index a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            #h4-Index a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<body>
+
+    <div class="container-Index">
+        <h2 id="h2-Index">Sezione amministrativa</h2>
+        <h4 id="h4-Index">@Html.ActionLink("Clicca qui per creare una nuova pizza!", "Create", "Prodotti")</h4>
+        <h4 id="h4-Index">@Html.ActionLink("Clicca qui per visualizzare tutte le pizze!", "Index", "Prodotti")</h4>
+        <h4 id="h4-Index">@Html.ActionLink("Clicca qui per visualizzare tutti gli ordini!", "Index", "Ordini")</h4>
+        <h4 id="h4-Index">@Html.ActionLink("Clicca qui per effettuare alcune ricerche!", "Index", "Admin")</h4>
+    </div>
+
+</body>

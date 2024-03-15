@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Pizzeria.Models.Prodotti>
+
+@{
+    ViewBag.Title = "Elenco Prodotti";
+}
+<style>
+    .container-IndexProdotti{
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    p {
+        margin-bottom: 20px;
+    }
+
+   table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #007bff;
+    }
+       
+    td {
+        vertical-align: top;
+    }
+
+    img {
+        max-width: 100px; 
+        max-height: 100px; 
+    }
+
+    .btn-IndexProdotti{
+        padding: 6px 12px;
+        border: none;
+        background-color: #007bff;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none; 
+        display: inline-block;
+    }
+
+        .btn-IndexProdotti:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="container-IndexProdotti">
+    <h2>@ViewBag.Title</h2>
+    <p>@Html.ActionLink("Torna indietro", "IndexAdmin", "Home")</p>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Foto</th>
+                        <th>Prezzo</th>
+                        <th>Tempo di Consegna</th>
+                        <th>Operazioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                            <td><img src="@item.Foto" alt="@item.Nome" /></td>
+                            <td>@item.Prezzo €</td>
+                            <td>@item.TempoConsegna min.</td>
+                            <td>
+                                @Html.ActionLink("Modifica", "Edit", new { id = item.IdProdotto }, new { @class = "btn btn-primary btn-sm btn-IndexProdotti" })
+                                @Html.ActionLink("Elimina", "Delete", new { id = item.IdProdotto }, new { @class = "btn btn-danger btn-sm btn-IndexProdotti" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

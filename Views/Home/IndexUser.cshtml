@@ -1,0 +1,160 @@
+﻿@using Pizzeria.Models
+@model IEnumerable<Pizzeria.Models.Prodotti>
+
+@{
+    ViewBag.Title = "IndexUser";
+}
+<style>
+    .container-User {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff; 
+        color: #ffffff;
+    }
+
+    img {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: auto;
+    }
+
+    select {
+        width: 100%; 
+        padding: 5px; 
+        border: 1px solid #ced4da; 
+        border-radius: 4px; 
+        box-sizing: border-box;
+    }
+
+    .aggiungi-btn {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #ffffff; 
+        border: none;
+        border-radius: 4px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+
+        .aggiungi-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-success-User {
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: block;
+        margin: auto;
+        text-align: center;
+        width: 150px;
+    }
+
+        .btn-success-User:hover {
+            background-color: #218838;
+        }
+</style>
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Foto</th>
+                        <th>Prezzo</th>
+                        <th>Tempo di Consegna</th>
+                        <th>Ingredienti Aggiuntivi</th>
+                        <th>Quantità</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prodotto in Model)
+                    {
+                        <tr>
+                            <td>@prodotto.Nome</td>
+                            <td><img src="@prodotto.Foto" alt="@prodotto.Nome" /></td>
+                            <td>@prodotto.Prezzo €</td>
+                            <td>@prodotto.TempoConsegna min.</td>
+                            <td>
+                                <select name="ingredientiSelezionati_@prodotto.IdProdotto">
+                                    <option value="">Seleziona un ingrediente</option>
+                                    @foreach (var ingrediente in ViewBag.Ingredienti)
+                                    {
+                                        <option value="@ingrediente.IdIngrediente">@ingrediente.Nome - @ingrediente.Prezzo</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <form action="@Url.Action("AggiungiAllOrdine")" method="post" class="aggiungi-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="idProdotto" value="@prodotto.IdProdotto">
+                                    <select name="quantita" class="quantita-select">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                            <td><button type="submit" class="aggiungi-btn">Aggiungi all'ordine</button></td>
+                            </form>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a id="procediLink" href="@Url.Action("RiepilogoOrdine", "Home")" class="btn btn-success btn-success-User" style="display: none;">Procedi all'ordine</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".aggiungi-btn").click(function () {
+                location.reload();
+            });
+            var ordineVuoto = @(Session["Ordini"] == null || (Session["Ordini"] as List<OrdineModel>).Count == 0 ? "true" : "false");
+            if (!ordineVuoto) {
+                $("#procediLink").show();
+            }
+        });
+
+        $(document).ready(function () {
+        $(".aggiungi-form").submit(function () {
+            var quantita = $(this).find(".quantita-select").val();
+            $(this).find("input[name=quantita]").val(quantita);
+        });
+    });
+    </script>
+}

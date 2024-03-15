@@ -1,0 +1,159 @@
+﻿@model List<Pizzeria.Models.OrdineModel>
+
+@{
+    ViewBag.Title = "Riepilogo Ordine";
+}
+<style>
+    .container-Riepilogo {
+        max-width: 800px; 
+        margin: auto;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .btn-danger, .btn-primary {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #ffffff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+        .btn-danger:hover, .btn-primary:hover {
+            background-color: #c82333;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        box-sizing: border-box;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .total-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+    }
+
+        .total-section p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .total-section .total-label {
+            font-size: 18px;
+        }
+
+        .total-section .total-amount {
+            font-size: 24px;
+            color: #007bff;
+        }
+</style>
+
+<div class="container-Riepilogo">
+    <h2>@ViewBag.Title</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome Prodotto</th>
+                <th>Prezzo Unitario</th>
+                <th>Quantità</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ordine in Model)
+            {
+                <tr>
+                    <td>@ordine.NomeProdotto</td>
+                    <td>@ordine.PrezzoUnitario €</td>
+                    <td>@ordine.Quantita</td>
+                    <td>
+                        <form action="@Url.Action("RimuoviDalOrdine")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="nomeProdotto" value="@ordine.NomeProdotto">
+                            <button type="submit" class="btn btn-danger">Rimuovi</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Inserisci i dati dell'ordine</h2>
+
+    <form action="@Url.Action("ConfermaOrdine")" method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="indirizzo">Indirizzo di consegna</label>
+            <input type="text" class="form-control" id="indirizzo" name="indirizzo" required>
+        </div>
+        <div class="form-group">
+            <label for="note">Note</label>
+            <textarea class="form-control" id="note" name="note"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Conferma Ordine</button>
+    </form>
+
+    <div class="total-section">
+        <p class="total-label">Totale da pagare:</p>
+        <p class="total-amount">@ViewBag.Totale €</p>
+    </div>
+</div>

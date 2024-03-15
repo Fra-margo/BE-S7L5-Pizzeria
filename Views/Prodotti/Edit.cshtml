@@ -1,0 +1,104 @@
+﻿@model Pizzeria.Models.Prodotti
+
+@{
+    ViewBag.Title = "Modifica Prodotto";
+}
+<style>
+
+    .container-Edit {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background-color: #ffffff; 
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center; 
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn-primary-Edit {
+        padding: 10px 20px; 
+        background-color: #007bff;
+        color: #ffffff; 
+        border: none;
+        border-radius: 4px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+
+        .btn-primary-Edit:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-secondary-Edit {
+        color: #007bff; 
+        background-color: transparent; 
+        border: none; 
+        cursor: pointer; 
+        text-decoration: underline; 
+    }
+
+        .btn-secondary-Edit:hover {
+            color: #0056b3; 
+        }
+</style>
+
+<div class="container-Edit">
+    <h2>@ViewBag.Title</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "form-label" })
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "form-label" })
+            @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Prezzo, htmlAttributes: new { @class = "form-label" })
+            @Html.EditorFor(model => model.Prezzo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Prezzo, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TempoConsegna, htmlAttributes: new { @class = "form-label" })
+            @Html.EditorFor(model => model.TempoConsegna, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TempoConsegna, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Salva modifiche" class="btn btn-primary-Edit" />
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Torna all'elenco", "Index", null, new { @class = "btn btn-secondary-Edit" })
+    </div>
+</div>
